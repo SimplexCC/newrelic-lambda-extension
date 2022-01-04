@@ -2,12 +2,13 @@ package checks
 
 import (
 	"errors"
-	"github.com/newrelic/newrelic-lambda-extension/config"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"regexp"
 	"time"
+
+	"github.com/newrelic/newrelic-lambda-extension/config"
 
 	"github.com/newrelic/newrelic-lambda-extension/util"
 )
