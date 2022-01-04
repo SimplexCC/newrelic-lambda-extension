@@ -2,6 +2,7 @@ package checks
 
 import (
 	"errors"
+	"github.com/newrelic/newrelic-lambda-extension/config"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
@@ -29,10 +30,14 @@ func init() {
 	}
 }
 
-func checkAndReturnRuntime() (runtimeConfig, error) {
+func checkAndReturnRuntime(conf *config.Configuration) (runtimeConfig, error) {
 	for k, v := range runtimeConfigs {
 		p := filepath.Join(runtimeLookupPath, string(k))
+
 		if util.PathExists(p) {
+			if conf.DisableAgentVersionCheck {
+				return v, nil
+			}
 			err := latestAgentTag(&v)
 			return v, err
 		}
