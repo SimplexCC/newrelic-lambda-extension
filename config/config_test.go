@@ -37,6 +37,7 @@ func TestConfigurationFromEnvironment(t *testing.T) {
 	os.Setenv("NEW_RELIC_HARVEST_ROT_MILLIS", "0")
 	os.Setenv("NEW_RELIC_EXTENSION_LOG_LEVEL", "DEBUG")
 	os.Setenv("NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS", "true")
+	os.Setenv("NEW_RELIC_DISABLE_AGENT_VERSION_CHECK", "true")
 
 	defer func() {
 		os.Unsetenv("NEW_RELIC_LAMBDA_EXTENSION_ENABLED")
@@ -49,6 +50,7 @@ func TestConfigurationFromEnvironment(t *testing.T) {
 		os.Unsetenv("NEW_RELIC_HARVEST_ROT_MILLIS")
 		os.Unsetenv("NEW_RELIC_EXTENSION_LOG_LEVEL")
 		os.Unsetenv("NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS")
+		os.Unsetenv("NEW_RELIC_DISABLE_AGENT_VERSION_CHECK")
 	}()
 
 	conf = ConfigurationFromEnvironment()
@@ -63,6 +65,7 @@ func TestConfigurationFromEnvironment(t *testing.T) {
 	assert.Equal(t, uint32(DefaultRotMillis), conf.RotMillis)
 	assert.Equal(t, "DEBUG", conf.LogLevel)
 	assert.Equal(t, true, conf.SendFunctionLogs)
+	assert.Equal(t, true, conf.DisableAgentVersionCheck)
 }
 
 func TestConfigurationFromEnvironmentSecretId(t *testing.T) {

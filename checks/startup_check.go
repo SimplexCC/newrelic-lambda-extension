@@ -26,7 +26,7 @@ var checks = []checkFn{
 }
 
 func RunChecks(ctx context.Context, conf *config.Configuration, reg *api.RegistrationResponse, logSender LogSender) {
-	runtimeConfig, err := checkAndReturnRuntime()
+	runtimeConfig, err := checkAndReturnRuntime(conf)
 	if err != nil {
 		errLog := fmt.Sprintf("There was an issue querying for the latest agent version: %v", err)
 		util.Logln(errLog)

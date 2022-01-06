@@ -8,6 +8,8 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/newrelic/newrelic-lambda-extension/config"
+
 	"github.com/newrelic/newrelic-lambda-extension/util"
 )
 
@@ -29,10 +31,14 @@ func init() {
 	}
 }
 
-func checkAndReturnRuntime() (runtimeConfig, error) {
+func checkAndReturnRuntime(conf *config.Configuration) (runtimeConfig, error) {
 	for k, v := range runtimeConfigs {
 		p := filepath.Join(runtimeLookupPath, string(k))
+
 		if util.PathExists(p) {
+			if conf.DisableAgentVersionCheck {
+				return v, nil
+			}
 			err := latestAgentTag(&v)
 			return v, err
 		}
